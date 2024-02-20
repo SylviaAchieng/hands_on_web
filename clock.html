@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>25 + 5 Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        #clock {
+            width: 200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        #timer {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        #session-label, #break-label {
+            font-size: 24px;
+        }
+
+        #start_stop, #reset {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>25 + 5 Clock</h1>
+    <div id="clock">
+        <div id="session-label">Session</div>
+        <div id="timer">25:00</div>
+        <div id="break-label">Break</div>
+        <button id="start_stop">Start</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <script>
+        let isSession = true;
+        let isRunning = false;
+        let timer;
+
+        const sessionLength = 25;
+        const breakLength = 5;
+        let minutes = isSession ? sessionLength : breakLength;
+        let seconds = 0;
+
+        const timerDisplay = document.getElementById("timer");
+        const startStopButton = document.getElementById("start_stop");
+        const resetButton = document.getElementById("reset");
+
+        function formatTime(min, sec) {
+            return (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+        }
+
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(minutes, seconds);
+        }
+
+        function toggleSession() {
+            isSession = !isSession;
+            minutes = isSession ? sessionLength : breakLength;
+            updateDisplay();
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                timer = setInterval(function () {
+                    if (minutes === 0 && seconds === 0) {
+                        toggleSession();
+                    } else if (seconds === 0) {
+                        minutes--;
+                        seconds = 59;
+                    } else {
+                        seconds--;
+                    }
+                    updateDisplay();
+                }, 1000);
+                isRunning = true;
+                startStopButton.textContent = "Pause";
+            } else {
+                clearInterval(timer);
+                isRunning = false;
+                startStopButton.textContent = "Resume";
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            isSession = true;
+            minutes = sessionLength;
+            seconds = 0;
+            updateDisplay();
+            startStopButton.textContent = "Start";
+        }
+
+        startStopButton.addEventListener("click", startTimer);
+        resetButton.addEventListener("click", resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>

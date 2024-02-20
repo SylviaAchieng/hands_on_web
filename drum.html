@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drum Machine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .drum-pad {
+            width: 100px;
+            height: 100px;
+            background-color: #007BFF;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drum Machine</h1>
+    <div id="drum-machine">
+        <div class="drum-pad" id="Q" onclick="playSound('Q')">Q</div>
+        <div class="drum-pad" id="W" onclick="playSound('W')">W</div>
+        <div class="drum-pad" id="E" onclick="playSound('E')">E</div>
+        <div class="drum-pad" id="A" onclick="playSound('A')">A</div>
+        <div class="drum-pad" id="S" onclick="playSound('S')">S</div>
+        <div class="drum-pad" id="D" onclick="playSound('D')">D</div>
+    </div>
+
+    <script>
+        // Define the drum sounds
+        const drumSounds = {
+            Q: new Audio('path_to_sound1.mp3'),
+            W: new Audio('path_to_sound2.mp3'),
+            E: new Audio('path_to_sound3.mp3'),
+            A: new Audio('path_to_sound4.mp3'),
+            S: new Audio('path_to_sound5.mp3'),
+            D: new Audio('path_to_sound6.mp3'),
+        };
+
+        // Function to play a sound
+        function playSound(key) {
+            if (drumSounds[key]) {
+                drumSounds[key].currentTime = 0;
+                drumSounds[key].play();
+            }
+        }
+
+        // Add keyboard event listeners
+        document.addEventListener('keydown', function(event) {
+            const key = event.key.toUpperCase();
+            if (drumSounds[key]) {
+                playSound(key);
+            }
+        });
+    </script>
+</body>
+</html>
